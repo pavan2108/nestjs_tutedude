@@ -12,6 +12,9 @@ export class User {
   })
   email: string;
 
+  @Column()
+  password: string;
+
   @Column({
     enum: RoleEnum,
     default: RoleEnum.USER,
