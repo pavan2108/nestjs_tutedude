@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
       user?: AuthenticatedUser;
     }>();
 
-    const bearerToken = request.headers['Authorization'];
+    const bearerToken = request.headers['authorization'];
     if (!bearerToken) {
       this.loggerService.error('User is not authroized');
       throw new HttpException('Un authorized', HttpStatus.UNAUTHORIZED);
@@ -44,10 +44,13 @@ export class AuthGuard implements CanActivate {
       throw new HttpException('Un authorized', HttpStatus.UNAUTHORIZED);
     }
 
-    const data: AuthenticatedUser = await this.jwtService.verify(jwtToken[1]);
-
-    request.user = data;
-
-    return true;
+    try {
+      const data: AuthenticatedUser = await this.jwtService.verify(jwtToken[1]);
+      request.user = data;
+      return true;
+    } catch (err: unknown) {
+      this.loggerService.error(err);
+      throw new HttpException('Un authorized', HttpStatus.UNAUTHORIZED);
+    }
   }
 }
