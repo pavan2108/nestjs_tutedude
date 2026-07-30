@@ -63,4 +63,12 @@ export class UserService {
       HttpStatus.BAD_REQUEST,
     );
   }
+
+  async userExistsById(id: number) {
+    return this.userRepository.exists({
+      where: {
+        id,
+      },
+    });
+  }
 }

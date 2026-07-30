@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     private readonly loggerService: LoggerService,
   ) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  canActivate(context: ExecutionContext): boolean {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -45,11 +45,11 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const data: AuthenticatedUser = await this.jwtService.verify(jwtToken[1]);
+      const data: AuthenticatedUser = this.jwtService.verify(jwtToken[1]);
       request.user = data;
       return true;
     } catch (err: unknown) {
-      this.loggerService.error(err);
+      this.loggerService.error((err as Error).message);
       throw new HttpException('Un authorized', HttpStatus.UNAUTHORIZED);
     }
   }
