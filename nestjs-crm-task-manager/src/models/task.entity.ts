@@ -34,10 +34,14 @@ export class Task {
   @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
   user: User;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   assignedTo: number;
 
-  @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Customer, (customer) => customer.tasks, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 }

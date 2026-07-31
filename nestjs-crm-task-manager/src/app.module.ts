@@ -10,6 +10,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import appConfig from './config/environment/app.config';
 import { AuthGuard } from './helpers/guards/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { CustomerModule } from './modules/customer/customer.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { APP_GUARD } from '@nestjs/core';
     DatabaseModule,
     UserModule,
     TasksModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [
